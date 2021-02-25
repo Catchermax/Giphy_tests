@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: "../conf.gradle"
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    defaultConfig {
+        applicationId config.applicationId
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        all {
+            buildConfigField "String", "API_KEY", "\"20Dwkr5tgVxzpk0nZoRDdDzR82uamosX\""
+            buildConfigField "String", "BASE_URL", "\"https://api.giphy.com/v1/\""
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+def implementationDependencies = [
+        project(':base'),
+        project(':domain'),
+        project(':data'),
+        project(':screens'),
+        project(':common'),
+        project(':navigation'),
+]
+
+def kaptDependencies = [
+        deps.toothpick.compiler,
+        deps.moxyx.compiler,
+]
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation 'com.kaspersky.android-components:kaspresso:1.2.1-SNAPSHOT'
+    implementationDependencies.forEach { dep -> implementation(dep) }
+    kaptDependencies.forEach { dep -> kapt(dep) }
+}
