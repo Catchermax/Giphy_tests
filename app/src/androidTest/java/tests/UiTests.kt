@@ -23,8 +23,8 @@ class UiTests(val textForSearch: String) : TestCase(kaspressoBuilder = Kaspresso
         @Parameterized.Parameters
         fun data() : Collection<Array<Any>> {
             return listOf(
-                arrayOf("cat"),         // First test:  (paramOne = 1, paramTwo = "I")
-                arrayOf("CAT")          // Second test: (paramOne = 1999, paramTwo = "MCMXCIX")
+                arrayOf("cat"),
+                arrayOf("CAT")
             )
         }
     }
